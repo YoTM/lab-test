@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
+from .models import Test
+
 
 # Create your views here.
 def pays_monitor(request):
@@ -9,6 +11,6 @@ def pays_monitor(request):
     :return:
     '''
 
-    n = 'Tim'
+    tests = Test.objects.all()
 
-    return render(request, 'pays/index.html', context={'name': n})
+    return render(request, 'pays/index.html', context={'tests': tests})
