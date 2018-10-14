@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+
 
 # Create your views here.
 def pays_monitor(request):
@@ -8,4 +8,7 @@ def pays_monitor(request):
     :param request:
     :return:
     '''
-    return HttpResponse('<h1>Здесь будет главная страница приложения</h1>')
+
+    n = 'Tim'
+
+    return render(request, 'pays/index.html', context={'name': n})
