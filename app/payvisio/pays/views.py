@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from .models import Test
+from .models import Payment, Payer
 
 
 # Create your views here.
@@ -11,6 +11,10 @@ def pays_monitor(request):
     :return:
     '''
 
-    tests = Test.objects.all()
+    payments = Payment.objects.all()
+    payers = Payer.objects.all()
 
-    return render(request, 'pays/index.html', context={'tests': tests})
+    return render(request, 'pays/index.html', context={
+        'payments': payments,
+        'payers': payers
+    })
