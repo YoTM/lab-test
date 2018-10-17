@@ -15,17 +15,86 @@
         <li>Разработать одностраничное web-приложение для графической визуализации зависимости величины платежа от даты поступления платежа. Дополнительно на странице должна быть расположена кнопка по нажатию на которую график зависимости заменяется гистограммой, иллюстрирующей величины платежей и наименование (фамилию и имя) плательщиков.</li>
     </ul>
     <hr>
-    <!--{% for test in tests %}-->
-        <!--<p>-->
-            <!--{{ test.title }}-->
-        <!--</p>-->
-    <!--{% endfor %}-->
+    <div>
+        <!--<h2>Здесь будет график</h2>-->
+        <button id="btn-line" onclick="line();">График</button>
+        <button id="btn-gist" onclick="gist();">Гистограмма</button>
+        <!--<h1>Ntcn</h1>-->
+        <div id="container" alt="Тут должен быть график или диаграмма"></div>
+        <script src="https://code.highcharts.com/highcharts.src.js"></script>
+        <script>
+            function line()
+            {
+                document.getElementById('btn-line').style.display = 'none';
+                document.getElementById('btn-gist').style.display = 'block';
+                Highcharts.chart('container', {
+                    chart: {
+                        type: 'line'
+                    },
+                    title: {
+                        text: 'Amounts & Dates'
+                    },
+                    xAxis: {
+                        categories: [
+                            {% for entry in payments %}
+                            '{{ entry.pay_date }}'{% if not forloop.last %}, {% endif %}{% endfor %}
+                        ]
+                    },
+                    series: [{
+                        name: 'Amount',
+                        tooltip: {
+                        valueDecimals: 2
+                        },
 
-    {% for payer in payers %}
-        <p>
-            {{ payer.country }}
-        </p>
-    {% endfor %}
+                        data:
+                        [
+                            {% for entry in payments %}{{ entry.amount }}{% if not forloop.last %}, {% endif %}{% endfor %}
+                        ],
+                        color: 'green'
+                    }]
+
+                });
+            }
+        </script>
+
+
+
+        <script>
+            function gist()
+            {
+                document.getElementById('btn-gist').style.display = 'none';
+                document.getElementById('btn-line').style.display = 'block';
+                Highcharts.chart('container', {
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: 'Amounts & Payers'
+                    },
+                    xAxis: {
+                        categories: [
+                            {% for entry in payers %}
+                            '{{ entry.last_name }} {{ entry.first_name }}'{% if not forloop.last %}, {% endif %}{% endfor %}
+                        ]
+                    },
+                    series: [{
+                        name: 'Amount',
+                        tooltip: {
+                            valueDecimals: 2
+                        },
+                        data:
+                        [
+                            {% for entry in payments %}{{ entry.amount }}{% if not forloop.last %}, {% endif %}{% endfor %}
+                        ],
+                        color: 'red'
+                    }]
+
+                });
+            }
+        </script>
+
+    </div>
+
 
 
 {% endblock %}
