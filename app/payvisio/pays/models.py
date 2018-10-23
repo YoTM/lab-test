@@ -11,6 +11,15 @@ class Payer(models.Model):
     last_name = models.CharField(max_length=50, db_index=True)
     country = models.CharField(max_length=50)
 
+    def __str__(self):
+        '''
+            Метод переопределяет вывод информации об объекте Payer
+            в консоли и админке приложения на строку вида:
+            <Имя> <Фамилия> плательщика
+
+        '''
+        return '{}'.format(self.first_name+' '+self.last_name)
+
 
 
 class Payment(models.Model):
@@ -25,4 +34,15 @@ class Payment(models.Model):
     amount = models.DecimalField(max_digits=5, decimal_places=2)
     percent = models.SmallIntegerField()
     pay_date = models.DateTimeField()
+
+    def __str__(self):
+        '''
+            Метод переопределяет вывод информации об объекте Payment
+            в консоли и админке приложения, например:
+            Sep. 11, 2018, 11:32 AM
+
+        '''
+        return '{}'.format(self.pay_date.strftime("%b. %d, %Y, %I:%M %p"))
+
+
 
